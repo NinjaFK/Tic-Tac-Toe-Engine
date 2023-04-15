@@ -5,6 +5,15 @@ class Board
 {
 
 public:
+    Board()
+    {
+        for (int i = 0; i < 9; i++)
+        {
+            board[i] = 0;
+        }
+        turn = 1;
+    }
+
     void displayBoard()
     {
         for (int i = 0; i < 9; i++)
