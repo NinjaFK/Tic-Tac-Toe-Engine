@@ -1,6 +1,7 @@
 #include <iostream>
+#include <vector>
 
-class TicTacToe
+class Board
 {
 
 public:
@@ -20,8 +21,7 @@ public:
             {
                 std::cout << '#';
             }
-
-            if (i % 3 == 0)
+            if (i % 3 == 2)
             {
                 std::cout << '\n';
             }
@@ -34,57 +34,41 @@ public:
     // zero is not over
     int winState()
     {
-        // O
         // row
-        if ((board[0] == 1 && board[3] == 1 && board[6] == 1) ||
-            (board[1] == 1 && board[4] == 1 && board[7] == 1) ||
-            (board[2] == 1 && board[5] == 1 && board[8] == 1))
+        if ((board[0] == board[3] && board[6] == board[3]) ||
+            (board[1] == board[4] && board[7] == board[4]) ||
+            (board[2] == board[5] && board[8] == board[5]))
         {
-            return 1;
+            return board[0];
         }
         // col
-        if ((board[0] == 1 && board[1] == 1 && board[2] == 1) ||
-            (board[3] == 1 && board[4] == 1 && board[5] == 1) ||
-            (board[6] == 1 && board[7] == 1 && board[8] == 1))
+        if ((board[0] == board[1] && board[2] == board[1]) ||
+            (board[3] == board[4] && board[5] == board[4]) ||
+            (board[6] == board[7] && board[8] == board[7]))
         {
             return 1;
         }
         // diag
-        if ((board[0] == 1 && board[4] == 1 && board[8] == 1) ||
-            (board[2] == 1 && board[4] == 1 && board[6] == 1))
+        if ((board[0] == board[4] && board[8] == board[4]) ||
+            (board[2] == board[4] && board[6] == board[4]))
         {
             return 1;
-        }
-        // X
-        // row
-        if ((board[0] == 2 && board[3] == 2 && board[6] == 2) ||
-            (board[1] == 2 && board[4] == 2 && board[7] == 2) ||
-            (board[2] == 2 && board[5] == 2 && board[8] == 2))
-        {
-            return 2;
-        }
-        // col
-        if ((board[0] == 2 && board[1] == 2 && board[2] == 2) ||
-            (board[3] == 2 && board[4] == 2 && board[5] == 2) ||
-            (board[6] == 2 && board[7] == 2 && board[8] == 2))
-        {
-            return 2;
-        }
-        // diag
-        if ((board[0] == 2 && board[4] == 2 && board[8] == 2) ||
-            (board[2] == 2 && board[4] == 2 && board[6] == 2))
-        {
-            return 2;
         }
         return 0;
     }
 
     // mini max
 
+    // makemove
 private:
-    int board[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+    int board[9];
+    int turn;
+    std::vector<int> history;
 };
 
 int main()
 {
+    Board game;
+
+    game.displayBoard();
 }
