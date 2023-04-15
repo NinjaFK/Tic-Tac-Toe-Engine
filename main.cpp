@@ -79,6 +79,20 @@ public:
         return true;
     }
 
+    // getMoves
+    std::vector<int> getMoves()
+    {
+        std::vector<int> moves;
+        for (int i = 0; i < 9; i++)
+        {
+            if (board[i] == 0)
+            {
+                moves.push_back(i);
+            }
+        }
+        return moves;
+    }
+
     // makemove
 
     // unmakemove
