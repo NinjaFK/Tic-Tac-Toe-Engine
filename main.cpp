@@ -66,14 +66,34 @@ public:
         return 0;
     }
 
-    // mini max
+    // isboardfull
+    bool isBoardFull()
+    {
+        for (int i = 0; i < 9; i++)
+        {
+            if (board[i] == 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 
     // makemove
+
+    // unmakemove
+
 private:
     int board[9];
     int turn;
     std::vector<int> history;
 };
+
+// eval
+
+// minimaxroot
+
+// minimax
 
 int main()
 {
