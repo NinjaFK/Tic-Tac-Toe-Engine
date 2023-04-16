@@ -1,9 +1,20 @@
 #include <iostream>
 #include <vector>
 
+class Move
+{
+public:
+    Move(int p, int s)
+    {
+        pos = p;
+        side = s;
+    }
+    int pos;
+    int side;
+};
+
 class Board
 {
-
 public:
     Board()
     {
@@ -80,27 +91,33 @@ public:
     }
 
     // getMoves
-    std::vector<int> getMoves()
+    std::vector<Move> getMoves()
     {
-        std::vector<int> moves;
+        std::vector<Move> moves;
         for (int i = 0; i < 9; i++)
         {
             if (board[i] == 0)
             {
-                moves.push_back(i);
+                moves.push_back(Move(i, turn));
             }
         }
         return moves;
     }
 
     // makemove
+    bool makeMove(Move toMake)
+    {
+        history.push_back(toMake);
+        board[toMake.pos] = toMake.side;
+        turn = (turn == 1) ? 2 : 1;
+    }
 
     // unmakemove
 
 private:
     int board[9];
     int turn;
-    std::vector<int> history;
+    std::vector<Move> history;
 };
 
 // eval
