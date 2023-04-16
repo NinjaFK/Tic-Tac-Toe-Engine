@@ -105,7 +105,7 @@ public:
     }
 
     // makemove
-    bool makeMove(Move toMake)
+    void makeMove(Move toMake)
     {
         history.push_back(toMake);
         board[toMake.pos] = toMake.side;
@@ -113,6 +113,12 @@ public:
     }
 
     // unmakemove
+    void unmakeMove()
+    {
+        turn = (turn == 1) ? 2 : 1;
+        board[history.back().pos] = 0;
+        history.pop_back();
+    }
 
 private:
     int board[9];
