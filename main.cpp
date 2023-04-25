@@ -154,17 +154,18 @@ int evalFunction(Board board)
     }
 }
 
+int minimax(Board board, int depth);
+
 // minimaxRoot
-int minimaxRoot(Board board, int depth)
+Move minimaxRoot(Board board, int depth)
 {
     std::vector<Move> moves = board.getMoves();
-    int bestMove = 0;
+    Move bestMove = Move(0, 0);
     int bestMoveValue = 0;
     int value = 0;
 
     if (board.turn == 1) // Max player
     {
-        bestMove = -1;
         bestMoveValue = -999999;
         for (int i = 0; i < moves.size(); i++)
         {
@@ -173,7 +174,7 @@ int minimaxRoot(Board board, int depth)
             board.unmakeMove();
             if (value > bestMoveValue)
             {
-                bestMove = i;
+                bestMove = moves[i];
                 bestMoveValue = value;
             }
         }
@@ -181,7 +182,6 @@ int minimaxRoot(Board board, int depth)
     }
     else // min player
     {
-        bestMove = -1;
         bestMoveValue = 999999;
         for (int i = 0; i < moves.size(); i++)
         {
@@ -190,7 +190,7 @@ int minimaxRoot(Board board, int depth)
             board.unmakeMove();
             if (value < bestMoveValue)
             {
-                bestMove = i;
+                bestMove = moves[i];
                 bestMoveValue = value;
             }
         }
@@ -201,8 +201,17 @@ int minimaxRoot(Board board, int depth)
 // minimax
 int minimax(Board board, int depth)
 {
+    if (depth == 0)
+    {
+        return evalFunction(board);
+    }
+    int static_eval = evalFunction(board);
+    if (static_eval != 0)
+    {
+        return static_eval;
+    }
+
     std::vector<Move> moves = board.getMoves();
-    int bestMove = 0;
     int bestMoveValue = 0;
     int value = 0;
 
@@ -216,7 +225,7 @@ int minimax(Board board, int depth)
             board.unmakeMove();
             bestMoveValue = std::max(value, bestMoveValue);
         }
-        return bestMove;
+        return bestMoveValue;
     }
     else // min player
     {
@@ -228,13 +237,61 @@ int minimax(Board board, int depth)
             board.unmakeMove();
             bestMoveValue = std::min(value, bestMoveValue);
         }
-        return bestMove;
+        return bestMoveValue;
     }
 }
 
 int main()
 {
     Board game;
+    bool stillPlaying = false;
+    int pos = 0;
+    Move move = Move(0, 0);
 
-    game.displayBoard();
+    while (true)
+    {
+        game.displayBoard();
+        std::cout << '\n';
+
+        if (game.winState() != 0)
+        {
+            if (game.winState() == 1)
+            {
+                std::cout << "O Wins\n";
+            }
+            else
+            {
+                std::cout << "X Wins\n";
+            }
+            break;
+        }
+        if (game.isBoardFull() == true)
+        {
+            std::cout << "Tie\n";
+            break;
+        }
+
+        if (game.turn == 1)
+        {
+            std::cout << "Your move: ";
+            while (true)
+            {
+                std::cin >> pos;
+                if (game.board[pos] == 0)
+                {
+                    break;
+                }
+                else
+                {
+                    std::cout << "Please choose valid move: ";
+                }
+            }
+            game.makeMove(Move(pos, game.turn));
+        }
+        else
+        {
+            move = minimaxRoot(game, 10);
+            game.makeMove(move);
+        }
+    }
 }
