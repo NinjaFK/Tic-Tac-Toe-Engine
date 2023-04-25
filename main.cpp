@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 class Move
 {
@@ -157,16 +158,79 @@ int evalFunction(Board board)
 int minimaxRoot(Board board, int depth)
 {
     std::vector<Move> moves = board.getMoves();
+    int bestMove = 0;
+    int bestMoveValue = 0;
+    int value = 0;
 
     if (board.turn == 1) // Max player
     {
+        bestMove = -1;
+        bestMoveValue = -999999;
+        for (int i = 0; i < moves.size(); i++)
+        {
+            board.makeMove(moves[i]);
+            value = minimax(board, depth - 1);
+            board.unmakeMove();
+            if (value > bestMoveValue)
+            {
+                bestMove = i;
+                bestMoveValue = value;
+            }
+        }
+        return bestMove;
     }
     else // min player
     {
+        bestMove = -1;
+        bestMoveValue = 999999;
+        for (int i = 0; i < moves.size(); i++)
+        {
+            board.makeMove(moves[i]);
+            value = minimax(board, depth - 1);
+            board.unmakeMove();
+            if (value < bestMoveValue)
+            {
+                bestMove = i;
+                bestMoveValue = value;
+            }
+        }
+        return bestMove;
     }
 }
 
 // minimax
+int minimax(Board board, int depth)
+{
+    std::vector<Move> moves = board.getMoves();
+    int bestMove = 0;
+    int bestMoveValue = 0;
+    int value = 0;
+
+    if (board.turn == 1) // Max player
+    {
+        bestMoveValue = -999999;
+        for (int i = 0; i < moves.size(); i++)
+        {
+            board.makeMove(moves[i]);
+            value = minimax(board, depth - 1);
+            board.unmakeMove();
+            bestMoveValue = std::max(value, bestMoveValue);
+        }
+        return bestMove;
+    }
+    else // min player
+    {
+        bestMoveValue = 999999;
+        for (int i = 0; i < moves.size(); i++)
+        {
+            board.makeMove(moves[i]);
+            value = minimax(board, depth - 1);
+            board.unmakeMove();
+            bestMoveValue = std::min(value, bestMoveValue);
+        }
+        return bestMove;
+    }
+}
 
 int main()
 {
