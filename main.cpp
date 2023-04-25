@@ -127,6 +127,21 @@ private:
 };
 
 // eval
+int evalFunction(Board board)
+{
+    if (board.winState() == 1)
+    {
+        return 1;
+    }
+    else if (board.winState() == 2)
+    {
+        return -1;
+    }
+    else
+    {
+        return 0;
+    }
+}
 
 // minimaxroot
 
