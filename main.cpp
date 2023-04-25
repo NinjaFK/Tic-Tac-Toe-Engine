@@ -16,6 +16,9 @@ public:
 class Board
 {
 public:
+    int board[9];
+    int turn;
+    std::vector<Move> history;
     Board()
     {
         for (int i = 0; i < 9; i++)
@@ -131,11 +134,6 @@ public:
         board[history.back().pos] = 0;
         history.pop_back();
     }
-
-private:
-    int board[9];
-    int turn;
-    std::vector<Move> history;
 };
 
 // eval
@@ -155,7 +153,18 @@ int evalFunction(Board board)
     }
 }
 
-// minimaxroot
+// minimaxRoot
+int minimaxRoot(Board board, int depth)
+{
+    std::vector<Move> moves = board.getMoves();
+
+    if (board.turn == 1) // Max player
+    {
+    }
+    else // min player
+    {
+    }
+}
 
 // minimax
 
