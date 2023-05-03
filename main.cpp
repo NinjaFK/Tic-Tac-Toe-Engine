@@ -205,6 +205,10 @@ int minimax(Board board, int depth)
     {
         return evalFunction(board);
     }
+    if (board.isBoardFull() == true)
+    {
+        return 0;
+    }
     int static_eval = evalFunction(board);
     if (static_eval != 0)
     {
