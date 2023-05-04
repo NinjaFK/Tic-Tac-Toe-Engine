@@ -58,35 +58,36 @@ public:
     // zero is not over
     int winState()
     {
-        // row
-        if ((board[0] == board[3] && board[6] == board[3]))
+        // col
+        if ((board[0] == board[3] && board[6] == board[3] && board[0] != 0))
         {
             return board[0];
         }
-        if ((board[1] == board[4] && board[7] == board[4]))
+        if ((board[1] == board[4] && board[7] == board[4] && board[1] != 0))
         {
             return board[1];
         }
-        if ((board[2] == board[5] && board[8] == board[5]))
+        if ((board[2] == board[5] && board[8] == board[5] && board[2] != 0))
         {
             return board[2];
         }
-        // col
-        if ((board[0] == board[1] && board[2] == board[1]))
+        // row
+        if ((board[0] == board[1] && board[2] == board[1] && board[0] != 0))
         {
             return board[0];
         }
-        if ((board[3] == board[4] && board[5] == board[4]))
+        if ((board[3] == board[4] && board[5] == board[4] && board[3] != 0))
         {
             return board[3];
         }
-        if ((board[6] == board[7] && board[8] == board[7]))
+        if ((board[6] == board[7] && board[8] == board[7] && board[6] != 0))
         {
             return board[6];
         }
         // diag
-        if ((board[0] == board[4] && board[8] == board[4]) ||
-            (board[2] == board[4] && board[6] == board[4]))
+        if (((board[0] == board[4] && board[8] == board[4]) ||
+             (board[2] == board[4] && board[6] == board[4])) &&
+            board[4] != 0)
         {
             return board[4];
         }
@@ -205,14 +206,14 @@ int minimax(Board board, int depth)
     {
         return evalFunction(board);
     }
-    if (board.isBoardFull() == true)
-    {
-        return 0;
-    }
     int static_eval = evalFunction(board);
     if (static_eval != 0)
     {
         return static_eval;
+    }
+    if (board.isBoardFull() == true)
+    {
+        return 0;
     }
 
     std::vector<Move> moves = board.getMoves();
@@ -294,7 +295,7 @@ int main()
         }
         else
         {
-            move = minimaxRoot(game, 10);
+            move = minimaxRoot(game, 7);
             game.makeMove(move);
         }
     }
